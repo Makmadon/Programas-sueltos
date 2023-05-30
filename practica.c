@@ -3,50 +3,50 @@
 
 int num_vertices;
 
+char aristas[100][10];
+
 char cruces[100][5];
 
-struct Graph {
+struct grafo {
   int V; // Number of vertices
   int E; // Number of edges
   int adj[100][100]; // Adjacency matrix
 };
-
-struct Graph* createGraph(int V) {
-  struct Graph* graph = (struct Graph*)malloc(sizeof(struct Graph));
-  graph->V = V;
-  graph->E = 0;
+struct grafo* crea_grafo(int V) {
+  struct grafo* grafo = (struct grafo*)malloc(sizeof(struct grafo));
+  grafo->V = V;
+  grafo->E = 0;
   for (int i = 0; i < V; i++) {
     for (int j = 0; j < V; j++) {
-      graph->adj[i][j] = 0;
+      grafo->adj[i][j] = 0;
     }
   }
-  return graph;
+  return grafo;
 }
 
-void addEdge(struct Graph* graph, int u, int v) {
-  graph->adj[u][v] = 1;
-  graph->adj[v][u] = 1;
-  graph->E++;
+void crea_arista(struct grafo* grafo, int u, int v) {
+  grafo->adj[u][v] = 1;
+  grafo->adj[v][u] = 1;
+  grafo->E++;
 }
 
-void greedyColoring(struct Graph* graph, int* colors) {
-  for (int i = 0; i < graph->V; i++) {
-    colors[i] = 0;
+void coloracion(struct grafo* grafo, int colores[]) {
+  for (int i = 0; i < grafo->V; i++) {
+    colores[i] = 0;
   }
 
-  for (int i = 0; i < graph->V; i++) {
+  for (int i = 0; i < grafo->V; i++) {
     int color = 1;
     for (int j = 0; j < i; j++) {
-      if (graph->adj[i][j] == 1 && colors[j] == color) {
+      if (grafo->adj[i][j] == 1 && colores[j] == color) {
         color++;
       }
     }
-    colors[i] = color;
+    colores[i] = color;
   }
 }
 
-
-void read_file(char *archivo){
+void read(char *archivo){
     FILE *fp;
     if((fp=fopen(archivo,"r"))==NULL){
 		fprintf(stderr,"Error al abrir %s\n",archivo);
@@ -55,4 +55,8 @@ void read_file(char *archivo){
     fscanf(fp,"%d", &num_vertices);
     for(int i=0;i<num_vertices;i++)
         fscanf(fp,"%s",cruces[i]);
+    for(int i=0;!EOF;i++){
+        scanf(fp,"%s",aristas[i]);
+    }
+    
 }
