@@ -1,19 +1,15 @@
 #include <stdio.h>
 
-int misterio(int x, int y)
+int misterio(unsigned n)
 {
-    int t;
-    if (!y)
-        return 1;
-    t = misterio(x, y >> 1);
-    if (y & 1)
-        return t * t * x;
-    return t * t;
+    if (!n)
+        return n;
+    return misterio(n >> 1) * 10 + (n & 1);
 }
 
-int y = 2;
+char *hola = "Hola";
 
 int main()
 {
-    printf("%d", misterio(y, 4));
+    printf("%s", hola);
 }
