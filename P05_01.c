@@ -46,6 +46,20 @@ void leer_productos(char *archivo){
 	fclose(fp);
 }
 
+void sort1(){ 
+    int i,j; 
+ 
+    for(i=0; i<MAX_PRODUCTOS-1; i++) 
+       for(j=i+1; j<MAX_PRODUCTOS; j++) 
+          if(inventario[i].codigo>inventario[j].codigo){ 
+           struct registro t; // intercambiar 
+           t=inventario[i]; 
+           inventario[i]=inventario[j]; 
+           inventario[j]=t; 
+          } 
+}
+
+
 int buscar_por_codigo(int codigo){
 	register int i;
 
