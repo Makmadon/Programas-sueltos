@@ -72,8 +72,8 @@ int cmp_nombre(int k,int i,int j){
 }
 
 int cmp_AN(int k,int i, int j){
-	return strcmp(registros[indice[k][i]].apellido,registros[indice[k][j]].apellido)==0?
-	cmp_nombre(k,i,j):cmp_apellido(k,i,j);
+	return strcmp(registros[indice[k][i]].apellido,registros[indice[k][j]].apellido)==0?  //verifica que los apellidos sean distintos, 
+	cmp_nombre(k,i,j):cmp_apellido(k,i,j);  	//si son distintos solo comparara los apellidos, si son iguales, comparara los nombres
 }
 // Construye el indice K usando la funcion de comparacion cmp
 
