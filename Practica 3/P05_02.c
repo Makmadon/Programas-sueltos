@@ -93,6 +93,7 @@ void construye_indice(int k, int (*cmp)(int,int,int)){
 }
 
 int main(void) {
+	
 	int i,opcion;
 	int (*funciones_cmp[])(int,int,int)={cmp_carnet,cmp_apellido,cmp_nombre,cmp_AN};
 
