@@ -77,50 +77,18 @@ int cmp_AN(int k,int i, int j){
 }
 // Construye el indice K usando la funcion de comparacion cmp
 
-void swap(int k, int i,int j){ 
-   int t; 
- 
-   t=indice[k][j]; 
-   indice[k][j]=indice[k][i]; 
-   indice[k][i]=t; 
-} 
-
-int particion(int k,int inicio, int fin, int (*cmp)(int,int,int)){ 
-int pivote, inferior=inicio+1, superior=fin; 
-pivote=indice[k][inicio]; 
-do{ 
-	while((*cmp)(k,inferior,pivote) && inferior<=superior) 
-		inferior++; 
-	while((*cmp)(k,pivote,superior) && inferior<=superior) 
-		superior--; 
-	if(inferior <= superior){ 
-		swap(k,inferior,superior); 
-		inferior++; 
-		superior--; 
-	} 
-}while(inferior<=superior); 
-swap(k,inicio,superior); 
-return superior; 
-}
-
 
 void construye_indice(int k, int (*cmp)(int,int,int)){
     int i,j;
-
-
-
-
-
-
 	 for(i=0;i<n_reg;i++)                     // inicializa el indice
 		indice[k][i]=i;
     for(i=1;i<n_reg;i++){
     	for(j=i; j>0 && (*cmp)(k,j,j-1); j--){ //  array[j]<array[j-1]
     	   int t=indice[k][j];                 // Intercambiar
 
-    	   indice[k][j]=indice[k][j-1];
-    	   indice[k][j-1]=t;
-       }
+			indice[k][j]=indice[k][j-1];
+			indice[k][j-1]=t;
+		}
     }
 }
 

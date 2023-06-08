@@ -48,17 +48,81 @@ void leer_productos(char *archivo){
 
 void sort1(){ 
     int i,j; 
- 
+
     for(i=0; i<MAX_PRODUCTOS-1; i++) 
-       for(j=i+1; j<MAX_PRODUCTOS; j++) 
-          if(inventario[i].codigo>inventario[j].codigo){ 
-           struct registro t; // intercambiar 
-           t=inventario[i]; 
-           inventario[i]=inventario[j]; 
-           inventario[j]=t; 
-          } 
+		for(j=i+1; j<MAX_PRODUCTOS; j++) 
+			if(inventario[i].codigo>inventario[j].codigo){ 
+				struct registro t; // intercambiar 
+				t=inventario[i]; 
+				inventario[i]=inventario[j]; 
+				inventario[j]=t; 
+			} 
 }
 
+void sort2(){ 
+    int e,i,j; 
+
+    for(i=0; i<MAX_PRODUCTOS-1; i++){ 
+		e=i; 
+		for(j=i+1; j<MAX_PRODUCTOS; j++){
+			if(inventario[e].codigo>inventario[j].codigo) 
+				e=j; 
+		}
+			if(i!=e){ 
+        		struct registro t; //
+        		t=inventario[i]; 	//
+        		inventario[i]=inventario[e]; //
+        		inventario[e]=t; //
+			} 
+    } 
+}
+
+void sort3(){ 
+    int i,j; 
+	struct registro t;
+	
+    for(i=1;i<MAX_PRODUCTOS;i++){ 
+		t=inventario[i]; 
+		for(j=i; j>0 && t.codigo<inventario[j-1].codigo; j--) 
+			inventario[j]=inventario[j-1]; 
+		inventario[j]=t; 
+    } 
+}
+
+void swap(int a,int b){ 
+	struct registro t; 
+	t=inventario[b]; 
+	inventario[b]=inventario[a]; 
+	inventario[a]=t; 
+}
+
+int particion(int inicio, int fin){ 
+	int  inferior=inicio+1, superior=fin; 
+	struct registro pivote;
+	pivote=inventario[inicio]; 
+	do{ 
+		while(inventario[inferior].codigo>=pivote.codigo && inferior<=superior) 
+			inferior++; 
+		while(inventario[superior].codigo<pivote.codigo && inferior<=superior) 
+			superior--; 
+	if(inferior <= superior){ 
+		swap(inferior,superior); 
+		inferior++; 
+		superior--; 
+	} 
+	}while(inferior<=superior); 
+	swap(inicio,superior); 
+	return superior; 
+}
+
+void quicksort(int inicio, int fin){ 
+int p; 
+	if(inicio<fin){ 
+		p=particion(inicio,fin); 
+		quicksort(inicio,p-1); 
+		quicksort(p+1,fin); 
+	} 
+}
 
 int buscar_por_codigo(int codigo){
 	register int i;
@@ -73,6 +137,8 @@ int main(void) {
 	int i;
 
 	leer_productos("productos.dat");
+	quicksort(0,MAX_PRODUCTOS);
+	//sort1();
 	for(i=0;i<cant_prod;i++)
 		imprime_producto(i);
 	printf("Codigo a buscar:");
