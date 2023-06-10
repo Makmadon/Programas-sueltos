@@ -51,7 +51,7 @@ void leer_registros(char *nombre){
 		return;
 	}
 	while(fscanf(fp,"%d %s %s %d",&registros[n_reg].carnet,registros[n_reg].apellido,
-         registros[n_reg].nombre,&registros[n_reg].ingreso)!=EOF)
+        registros[n_reg].nombre,&registros[n_reg].ingreso)!=EOF)
 		n_reg++;
 	fclose(fp);
 }
