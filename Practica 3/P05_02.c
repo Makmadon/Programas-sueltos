@@ -77,20 +77,36 @@ int cmp_AN(int k,int i, int j){
 }
 // Construye el indice K usando la funcion de comparacion cmp
 
+void swap(int k,int a,int b){ 
+	int t;
+	t=indice[k][b];
+	indice[k][b]=indice[k][a];
+	indice[k][a]=t;
+}
+
+void quicksort(int k,int left, int right,int (*cmp)(int, int, int)){ 
+	int i,last; 
+
+	if(left>=right) 
+		return; 
+	swap(k,left,(left+right)/2); 
+	last=left; 
+	for(i=left+1; i<=right; i++) 
+    if(cmp(k,i,left)) 
+		swap(k,++last,i); 
+	swap(k,left,last); 
+	quicksort(k,left,last-1,cmp); 
+	quicksort(k,last+1,right,cmp); 
+}
 
 void construye_indice(int k, int (*cmp)(int,int,int)){
-    int i,j;
-	 for(i=0;i<n_reg;i++)                     // inicializa el indice
+	for(int i=0;i<n_reg;i++)                     // inicializa el indice
 		indice[k][i]=i;
-    for(i=1;i<n_reg;i++){
-    	for(j=i; j>0 && (*cmp)(k,j,j-1); j--){ //  array[j]<array[j-1]
-    	   int t=indice[k][j];                 // Intercambiar
-
-			indice[k][j]=indice[k][j-1];
-			indice[k][j-1]=t;
-		}
-    }
+	quicksort(k,2,n_reg,cmp);
 }
+
+
+
 
 int main(void) {
 	
