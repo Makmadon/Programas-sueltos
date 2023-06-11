@@ -91,9 +91,10 @@ void quicksort(int k,int left, int right,int (*cmp)(int, int, int)){
 		return; 
 	swap(k,left,(left+right)/2); 
 	last=left; 
-	for(i=left+1; i<=right; i++) 
-    if(cmp(k,i,left)) 
-		swap(k,++last,i); 
+	for(i=left+1; i<=right; i++){
+		if(cmp(k,i,left)) 
+			swap(k,++last,i);
+	}
 	swap(k,left,last); 
 	quicksort(k,left,last-1,cmp); 
 	quicksort(k,last+1,right,cmp); 
