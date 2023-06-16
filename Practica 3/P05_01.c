@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define MAX_PRODUCTOS 25
 
@@ -46,12 +47,17 @@ void leer_productos(char *archivo){
 	fclose(fp);
 }
 
+int cmp(int i,int j){
+	return strcmp(inventario[i].descripcion,inventario[j].descripcion)<0;
+}
+
+
 void sort1(){ 
     int i,j; 
 
     for(i=0; i<MAX_PRODUCTOS-1; i++) 
 		for(j=i+1; j<MAX_PRODUCTOS; j++) 
-			if(inventario[i].codigo>inventario[j].codigo){ 
+			if(cmp(i,j)){ 
 				struct registro t; // intercambiar 
 				t=inventario[i]; 
 				inventario[i]=inventario[j]; 
@@ -65,7 +71,7 @@ void sort2(){
     for(i=0; i<MAX_PRODUCTOS-1; i++){ 
 		e=i; 
 		for(j=i+1; j<MAX_PRODUCTOS; j++){
-			if(inventario[e].codigo>inventario[j].codigo) 
+			if(cmp(i,j)) 
 				e=j; 
 		}
 			if(i!=e){ 
@@ -83,7 +89,7 @@ void sort3(){
 	
     for(i=1;i<MAX_PRODUCTOS;i++){ 
 		t=inventario[i]; 
-		for(j=i; j>0 && t.codigo<inventario[j-1].codigo; j--) 
+		for(j=i; j>0 && (strcmp(t.descripcion,inventario[j-1].descripcion)<0); j--) 
 			inventario[j]=inventario[j-1]; 
 		inventario[j]=t; 
     } 
@@ -101,9 +107,9 @@ int particion(int inicio, int fin){
 	struct registro pivote;
 	pivote=inventario[inicio]; 
 	do{ 
-		while(inventario[inferior].codigo>=pivote.codigo && inferior<=superior) 
+		while(strcmp(inventario[inferior].descripcion,pivote.descripcion)>=0 && inferior<=superior) 
 			inferior++; 
-		while(inventario[superior].codigo<pivote.codigo && inferior<=superior) 
+		while(strcmp(inventario[superior].descripcion,pivote.descripcion)<0 && inferior<=superior) 
 			superior--; 
 	if(inferior <= superior){ 
 		swap(inferior,superior); 
@@ -138,7 +144,19 @@ int main(void) {
 
 	leer_productos("productos.dat");
 	quicksort(0,MAX_PRODUCTOS);
-	//sort1();
+	sort1();
+	for(i=0;i<cant_prod;i++)
+		imprime_producto(i);
+	printf("\n\n\n");
+	sort2();
+	for(i=0;i<cant_prod;i++)
+		imprime_producto(i);
+	printf("\n\n\n");
+	sort3();
+	for(i=0;i<cant_prod;i++)
+		imprime_producto(i);
+	printf("\n\n\n");
+	quicksort(0,cant_prod);
 	for(i=0;i<cant_prod;i++)
 		imprime_producto(i);
 	printf("Codigo a buscar:");
