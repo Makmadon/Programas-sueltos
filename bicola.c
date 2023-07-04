@@ -1,8 +1,5 @@
 #include <stdio.h>
 #define tamaño_bicola 10
-const int hola=10
-
-
 
 
 typedef struct bicola{
@@ -12,9 +9,9 @@ typedef struct bicola{
 }Bicola;
 
 
-Bicola CrearBicola(Bicola cola){
-	cola.primero=cola.cantidad=cola.ultimo=0;
-	return cola;
+void CrearBicola(Bicola *cola){
+	cola->primero=cola->cantidad=cola->ultimo=0;
+	return ;
 }
 
 int BicolaVacia(Bicola cola){
@@ -30,7 +27,7 @@ int PonerFrente(Bicola* cola,int elemento){
 	return 0;
 }
 
-int PonerFinal(Bicola *cola){
+int PonerFinal(Bicola *cola,int elemento){
 	if(cola->cantidad<tamaño_bicola-1){
 		cola->cola[cola->ultimo++]=elemento;
 		cola->cantidad++;
@@ -58,7 +55,7 @@ int QuitarFinal(Bicola *cola,int *elemento){
 }
 
 int Frente(Bicola cola, int *elemento){
-	if(cola->cantidad>0){
+	if(cola.cantidad>0){
 		*elemento=cola.cola[cola.primero];
 		return 1;
 	}
@@ -66,7 +63,7 @@ int Frente(Bicola cola, int *elemento){
 }
 
 int Final(Bicola cola,int *elemento){
-	if(cola->cantidad>0){
+	if(cola.cantidad>0){
 		*elemento=cola.cola[cola.ultimo];
 		return 1;
 	}
@@ -78,7 +75,9 @@ int a[]={5,10,15,20,25,30,35};
 Bicola cola;
 
 int main(){
+CrearBicola(&cola);
 	for(int i=0;i<7;i++){
+	printf("%d",i);
 	if(i%2){
 		if(!PonerFrente(&cola,a[i]))
 			break;
@@ -87,6 +86,12 @@ int main(){
 			break;
 	}
 }
+
+int elemento;
+while(QuitarFrente(&cola,&elemento)){
+	printf("->%d", &elemento);
+}
+
 
 
 
