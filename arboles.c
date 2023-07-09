@@ -22,7 +22,7 @@ int inserta(Arbol **arbol, char elemento){
 	if((*arbol)->dato==elemento)
 		return 0;
 	else
-	if((*arbol)->dato<elemento))
+	if((*arbol)->dato<elemento)
 		return inserta(&(*arbol)->izquierdo,elemento);
 	else
 	return	inserta(&(*arbol)->derecho,elemento);
@@ -64,20 +64,31 @@ int peso(Arbol *arbol){
 void preorden(Arbol *arbol){
 	if(arbol==NULL)
 		return;
-	printf("%s",arbol->dato);
+	printf("%c",arbol->dato);
 	preorden(arbol->izquierdo);
 	preorden(arbol->derecho);
 }
 
+int iguales(Arbol* a, Arbol *b){
+	if(!a && !b)
+		return 1;
+	if(!a || !b)
+		return 0;
+	if(a->dato==b->dato){
+		if(iguales(a->izquierdo,b->izquierdo))
+			return iguales(a->derecho,b->derecho);
+	}
+}
 
 
-char b[]="15";
+
+char b[]={'b','a','c','d','e','f','g'};
 
 Arbol *arbol=NULL;
 
 int main(){
-	printf("hola");
-	inserta(&arbol,'a');
+	for(int i=0;i<7;i++)
+		inserta(&arbol,b[i]);
 	printf("\nTiene %d hojas", cuentah(arbol));
 	printf("\nTiene %d de peso", peso(arbol));
 	printf("\nTiene %d de profundidad\n", profundidad(arbol));
