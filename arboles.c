@@ -28,7 +28,6 @@ int inserta(Arbol **arbol, char elemento){
 	return	inserta(&(*arbol)->derecho,elemento);
 }
 
-
 int cuentah(Arbol *arbol){
 	if (!arbol)
 		return 0;
@@ -37,7 +36,6 @@ int cuentah(Arbol *arbol){
 	return cuentah(arbol->izquierdo)+cuentah(arbol->derecho);
 
 }
-
 
 int profundidad(Arbol *arbol){
 	int alti=0,altd=0;
@@ -51,8 +49,6 @@ int profundidad(Arbol *arbol){
 		return alti;
 	return altd;
 }
-
-
 
 int peso(Arbol *arbol){
 	if(!arbol)
@@ -78,19 +74,25 @@ int iguales(Arbol* a, Arbol *b){
 		if(iguales(a->izquierdo,b->izquierdo))
 			return iguales(a->derecho,b->derecho);
 	}
+	return 0;
 }
 
 
 
-char b[]={'b','a','c','d','e','f','g'};
+char b[]={'b','f','c','a','e','z','g'};
 
-Arbol *arbol=NULL;
+Arbol *arb=NULL;
+Arbol *ara=NULL;
 
 int main(){
 	for(int i=0;i<7;i++)
-		inserta(&arbol,b[i]);
-	printf("\nTiene %d hojas", cuentah(arbol));
-	printf("\nTiene %d de peso", peso(arbol));
-	printf("\nTiene %d de profundidad\n", profundidad(arbol));
+		inserta(&arb,b[i]);
+	for(int i=0;i<7;i++)
+		inserta(&ara,b[i]);
+	printf("\nTiene %d hojas", cuentah(arb));
+	printf("\nTiene %d de peso", peso(arb));
+	printf("\nTiene %d de profundidad\n", profundidad(arb));
+	if(iguales(ara,arb))
+		printf("Hola");
 return 0;
 }
