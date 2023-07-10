@@ -20,7 +20,12 @@ int BicolaVacia(Bicola cola){
 
 int PonerFrente(Bicola* cola,int elemento){
 	if(cola->cantidad<=tamaño_bicola-1){
-		cola->cola[cola->primero=(cola->primero<=0)?tamaño_bicola-1:cola->primero-1]=elemento;
+		if (cola->cantidad>0){
+			cola->cola[cola->primero=(cola->primero<=0)?tamaño_bicola-1:cola->primero-1]=elemento;
+		}
+		else{
+			cola->cola[cola->primero]=elemento;
+		}
 		cola->cantidad=cola->cantidad+1;
 		return 1;
 	}
@@ -29,7 +34,11 @@ int PonerFrente(Bicola* cola,int elemento){
 
 int PonerFinal(Bicola *cola,int elemento){
 	if(cola->cantidad<=tamaño_bicola-1){
-		cola->cola[cola->ultimo=(cola->ultimo>=tamaño_bicola)?0:cola->ultimo+1]=elemento;
+		if(cola->cantidad>0){
+			cola->cola[cola->ultimo=(cola->ultimo>tamaño_bicola)?0:cola->ultimo+1]=elemento;
+		}else{
+			cola->cola[cola->ultimo]=elemento;
+		}
 		cola->cantidad=cola->cantidad+1;
 		return 1;
 	}
@@ -39,7 +48,7 @@ int PonerFinal(Bicola *cola,int elemento){
 int QuitarFrente(Bicola* cola,int *elemento){
 	if(cola->cantidad>0){
 		*elemento=cola->cola[cola->primero];
-		cola->primero=(cola->primero<=tamaño_bicola-1)?cola->primero+1:0;
+		cola->primero=(cola->primero<tamaño_bicola-1)?cola->primero+1:0;
 		cola->cantidad--;
 		return 1;
 	}
@@ -78,8 +87,7 @@ Bicola cola;
 
 int main(){
 CrearBicola(&cola);
-	for(int i=0;i<10;i++){
-	printf("%d",i);
+	for(int i=0;i<7;i++){
 	if(i%2){
 		if(!PonerFrente(&cola,a[i]))
 			break;
