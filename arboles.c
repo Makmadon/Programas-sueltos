@@ -118,6 +118,17 @@ Arbol* Espejo(Arbol* a){
 	return a;
 }
 
+int iguales(Arbol* a, Arbol *b){
+	if(!a && !b)
+		return 1;
+	if(!a || !b)
+		return 0;
+	if(a->dato==b->dato){
+		if(iguales(a->izquierdo,b->izquierdo))
+			return iguales(a->derecho,b->derecho);
+	}
+	return 0;
+}
 
 void preorden(Arbol *arbol){
 	if(arbol==NULL)
