@@ -2,31 +2,66 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+typedef struct nodo{
+	int dato;
+	struct nodo *next;
+}Nodo;
+
 typedef struct arbol{
-	char dato;
+	int dato;
 	struct arbol *derecho,*izquierdo;
 }Arbol;
 
 Arbol *arbol;
 
 
-int inserta(Arbol **arbol, char elemento){
+
+Arbol *arbol=NULL;
+
+
+Nodo* creaNodo(int dato){
+	Nodo* newp;
+	if((newp=(Nodo*)malloc(sizeof(Nodo)))==NULL)
+		return NULL;
+	newp->dato=dato;
+	newp->next=NULL;
+	return newp;
+}
+
+Nodo* AddLista(Nodo *lista,Nodo* newp){
+	Nodo *p=lista;
+	if(!lista)
+		return newp;
+	while(p->next)
+		p=p->next;
+	p->next=newp;
+	return lista;
+}
+
+Nodo* AddDato(Nodo *lista, char dato){
+	Nodo *newp=creaNodo(dato),*p=lista;
+	return AddLista(lista,newp);
+}
+
+
+int inserta(Arbol **arbol, int elemento){
 	if(*arbol==NULL){
 		*arbol=(Arbol*)malloc(sizeof(Arbol));
 		(*arbol)->dato=elemento;
-		return 1;
 		(*arbol)->izquierdo=NULL;
 		(*arbol)->derecho=NULL;
-	return 1;
+		return 1;
 	}
 	if((*arbol)->dato==elemento)
 		return 0;
 	else
-	if((*arbol)->dato<elemento)
+	if(((*arbol)->dato)<elemento)
 		return inserta(&(*arbol)->izquierdo,elemento);
 	else
 	return	inserta(&(*arbol)->derecho,elemento);
 }
+
 
 int cuentah(Arbol *arbol){
 	if (!arbol)
@@ -36,6 +71,7 @@ int cuentah(Arbol *arbol){
 	return cuentah(arbol->izquierdo)+cuentah(arbol->derecho);
 
 }
+
 
 int profundidad(Arbol *arbol){
 	int alti=0,altd=0;
@@ -50,6 +86,21 @@ int profundidad(Arbol *arbol){
 	return altd;
 }
 
+Nodo* Rama(Arbol *arbol){
+	int alti=0,altd=0;
+	Nodo* lista;
+	if (!arbol)
+		return NULL;
+	lista=AddDato(lista,arbol->dato);
+	if(arbol->izquierdo)
+		alti=1+profundidad(arbol->izquierdo);
+	if(arbol->derecho)
+		altd=1+profundidad(arbol->derecho);
+	if(alti>altd)
+		return AddLista(lista,Rama(arbol->izquierdo));
+	return AddLista(lista,Rama(arbol->derecho));
+}
+
 int peso(Arbol *arbol){
 	if(!arbol)
 		return 0;
@@ -57,42 +108,42 @@ int peso(Arbol *arbol){
 
 }
 
+Arbol* Espejo(Arbol* a){
+	Arbol* aux;
+	if(!a)
+		return	NULL;
+	aux=Espejo(a->derecho);
+	a->derecho=Espejo(a->izquierdo);
+	a->izquierdo=aux;
+	return a;
+}
+
+
 void preorden(Arbol *arbol){
 	if(arbol==NULL)
 		return;
-	printf("%c",arbol->dato);
+	printf("%d ",arbol->dato);
 	preorden(arbol->izquierdo);
 	preorden(arbol->derecho);
 }
 
-int iguales(Arbol* a, Arbol *b){
-	if(!a && !b)
-		return 1;
-	if(!a || !b)
-		return 0;
-	if(a->dato==b->dato){
-		if(iguales(a->izquierdo,b->izquierdo))
-			return iguales(a->derecho,b->derecho);
+void imprime(Nodo* lista){
+	while(lista){
+		printf("->%d",lista->dato);
+		lista=lista->next;
 	}
-	return 0;
+	printf("\n");
 }
 
-
-
-char b[]={'b','f','c','a','e','z','g'};
-
-Arbol *arb=NULL;
-Arbol *ara=NULL;
+int a[]={4,2,8,1,3,6,5,7};
 
 int main(){
-	for(int i=0;i<7;i++)
-		inserta(&arb,b[i]);
-	for(int i=0;i<7;i++)
-		inserta(&ara,b[i]);
-	printf("\nTiene %d hojas", cuentah(arb));
-	printf("\nTiene %d de peso", peso(arb));
-	printf("\nTiene %d de profundidad\n", profundidad(arb));
-	if(iguales(ara,arb))
-		printf("Hola");
+	for (int i=0;i<8;i++)
+		inserta(&arbol,a[i]);
+	printf("Rama mas larga:");
+	imprime(Rama(arbol));
+	preorden(arbol);
+	printf("\n");
+	preorden(Espejo(arbol));
 return 0;
 }
